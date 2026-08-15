@@ -10,7 +10,7 @@ export function BrandMark({ inverse = false }: { inverse?: boolean }) {
           alt=""
           width={44}
           height={44}
-          priority
+          preload
         />
       </span>
       <span className="brand__words">

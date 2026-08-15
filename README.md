@@ -18,3 +18,7 @@ The embedded Sanity Studio lives at `/studio`. Its content model includes site s
 ## Contact form
 
 The contact form uses a Next.js Server Action and Resend. New inquiries go to the email in Sanity **Site settings** (`siteSettings.email`) when present, otherwise `CONTACT_TO_EMAIL`. The visitor receives a confirmation at the email address they supplied. Sending still requires `RESEND_API_KEY` and a verified `CONTACT_FROM_EMAIL` in env — Sanity stores the destination address only. The form does not store submissions in Sanity.
+
+### Testing before a domain is verified
+
+Resend only accepts `onboarding@resend.dev` as a sender, and only delivers to the address that owns the Resend account, until a domain is verified at [resend.com/domains](https://resend.com/domains). Set `CONTACT_TO_EMAIL_OVERRIDE` to that account email to redirect both the inquiry and the confirmation while developing. The override is ignored when `NODE_ENV` is `production`, so it cannot leak into a deployment. Once a domain is verified, point `CONTACT_FROM_EMAIL` at an address on it and clear the override.

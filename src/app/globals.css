@@ -1645,9 +1645,25 @@ h1, h2, h3 {
 
 .contact-form input:focus,
 .contact-form select:focus,
-.contact-form textarea:focus {
+.contact-form textarea:focus,
+.contact-form .contact-form__phone-input:focus {
   outline: none;
   border-bottom-color: var(--red);
+}
+
+.contact-form .contact-form__phone-input {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid var(--line-strong);
+  background: transparent;
+  padding: 0.65rem 0;
+  color: var(--ink);
+  font: inherit;
+}
+
+.contact-form .contact-form__phone-input::placeholder {
+  color: var(--muted);
+  opacity: 0.7;
 }
 
 .service-area-band {
