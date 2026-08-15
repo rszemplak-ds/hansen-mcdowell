@@ -31,3 +31,36 @@ export function Check({ className }: IconProps) {
     </svg>
   );
 }
+
+export function IconHome({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1v-9.5Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+      />
+    </svg>
+  );
+}
+
+export function IconAuction({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M4 20h16M8 17l7.5-7.5M14.5 8.5l2-2 3 3-2 2-3-3Z" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M7 14h4" stroke="currentColor" strokeWidth="1.6" />
+    </svg>
+  );
+}
+
+export function IconCleanout({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path
+        d="M4 7h16M9 7V5h6v2M7 7l1 13h8l1-13"
+        stroke="currentColor"
+        strokeWidth="1.6"
+      />
+    </svg>
+  );
+}

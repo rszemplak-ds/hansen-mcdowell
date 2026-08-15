@@ -14,7 +14,7 @@ export function PageHero({
   return (
     <section className="page-hero">
       <div className="shell page-hero__grid">
-        <div>
+        <div className="page-hero__primary">
           <p className="eyebrow">{eyebrow}</p>
           <h1>{title}</h1>
         </div>

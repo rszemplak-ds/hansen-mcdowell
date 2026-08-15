@@ -1,17 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
-import { getSiteSettings } from "@/lib/site-data";
+import { DM_Sans, Source_Serif_4 } from "next/font/google";
+import { getSiteSettings } from "@/lib/content";
 import "./globals.css";
 
-const sans = Manrope({
+const sans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
 });
 
-const serif = Cormorant_Garamond({
+const serif = Source_Serif_4({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   style: ["normal", "italic"],
@@ -19,24 +17,51 @@ const serif = Cormorant_Garamond({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
-  title: {
-    default: "Hansen McDowell Estate Sales | Greater Cleveland",
-    template: "%s | Hansen McDowell",
-  },
-  description:
-    "Family-owned online estate auction and home clean-out services for Greater Cleveland and Northeast Ohio.",
-  icons: {
-    icon: "/images/viking-cat.jpg",
-    shortcut: "/images/viking-cat.jpg",
-  },
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    siteName: "Hansen McDowell Estate Sales",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const settings = await getSiteSettings();
+    return {
+      metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+      title: {
+        default:
+          settings.defaultSeo?.seoTitle ??
+          "Hansen McDowell Estate Sales | Greater Cleveland",
+        template: `%s | ${settings.shortName}`,
+      },
+      description:
+        settings.defaultSeo?.seoDescription ??
+        "Family-owned online estate auction and home clean-out services for Greater Cleveland and Northeast Ohio.",
+      icons: {
+        icon: "/images/viking-cat.jpg",
+        shortcut: "/images/viking-cat.jpg",
+      },
+      openGraph: {
+        type: "website",
+        locale: "en_US",
+        siteName: settings.businessName,
+      },
+    };
+  } catch {
+    return {
+      metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+      title: {
+        default: "Hansen McDowell Estate Sales | Greater Cleveland",
+        template: "%s | Hansen McDowell",
+      },
+      description:
+        "Family-owned online estate auction and home clean-out services for Greater Cleveland and Northeast Ohio.",
+      icons: {
+        icon: "/images/viking-cat.jpg",
+        shortcut: "/images/viking-cat.jpg",
+      },
+      openGraph: {
+        type: "website",
+        locale: "en_US",
+        siteName: "Hansen McDowell Estate Sales",
+      },
+    };
+  }
+}
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -44,20 +69,14 @@ export const viewport: Viewport = {
   themeColor: "#a3292f",
 };
 
-export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const settings = await getSiteSettings();
-
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
       className={`${sans.variable} ${serif.variable}`}
       data-scroll-behavior="smooth"
     >
-      <body>
-        <SiteHeader settings={settings} />
-        <main>{children}</main>
-        <SiteFooter settings={settings} />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

@@ -1,5 +1,6 @@
 # dependencies
 /node_modules
+.pnpm-store/
 
 # next.js
 /.next/
@@ -25,3 +26,8 @@ next-env.d.ts
 
 # sanity
 .sanity
+
+# migration artifacts (raw exports; markdown maps stay tracked)
+migration/extracted/
+migration/transformed/
+migration/reports/

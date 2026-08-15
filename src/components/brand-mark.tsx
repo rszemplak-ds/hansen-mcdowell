@@ -8,14 +8,14 @@ export function BrandMark({ inverse = false }: { inverse?: boolean }) {
         <Image
           src="/images/viking-cat.jpg"
           alt=""
-          width={48}
-          height={48}
+          width={44}
+          height={44}
           priority
         />
       </span>
       <span className="brand__words">
         <strong>Hansen McDowell</strong>
-        <span>Estate Sales</span>
+        <span className="brand__tagline">Estate Sales</span>
       </span>
     </Link>
   );

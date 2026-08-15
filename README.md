@@ -4,12 +4,12 @@ A modern, editorial website for Hansen McDowell Estate Sales, built with Next.js
 
 ## Local setup
 
-1. Install dependencies with `npm install`.
+1. Install dependencies with `pnpm install`.
 2. Copy `.env.example` to `.env.local`.
 3. Add a Sanity project ID and Resend API key when those services are ready.
-4. Start the site with `npm run dev`.
+4. Start the site with `pnpm run dev`.
 
-The site uses carefully written local fallback content until Sanity is connected. Once configured, published Sanity documents override those defaults without changing the page components.
+Published Sanity documents drive page content. Studio lives at `/studio`.
 
 ## Content editing
 
@@ -17,4 +17,4 @@ The embedded Sanity Studio lives at `/studio`. Its content model includes site s
 
 ## Contact form
 
-The contact form uses a Next.js Server Action and Resend. New inquiries go to `CONTACT_TO_EMAIL`, and the visitor receives a confirmation at the email address they supplied. The form does not store submissions in Sanity.
+The contact form uses a Next.js Server Action and Resend. New inquiries go to the email in Sanity **Site settings** (`siteSettings.email`) when present, otherwise `CONTACT_TO_EMAIL`. The visitor receives a confirmation at the email address they supplied. Sending still requires `RESEND_API_KEY` and a verified `CONTACT_FROM_EMAIL` in env — Sanity stores the destination address only. The form does not store submissions in Sanity.

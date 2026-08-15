@@ -4,7 +4,7 @@ import { useActionState, useEffect, useRef } from "react";
 import {
   submitContactForm,
   type ContactFormState,
-} from "@/app/contact/actions";
+} from "@/app/actions/contact";
 import { ArrowRight } from "./icons";
 
 const initialState: ContactFormState = { status: "idle", message: "" };
