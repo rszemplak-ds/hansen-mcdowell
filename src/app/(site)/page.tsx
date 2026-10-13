@@ -15,6 +15,8 @@ import {
   getSiteSettings,
   getTestimonials,
   metadataFromSeo,
+  type HomePage,
+  type SiteSettings,
 } from "@/lib/content";
 import { stockImages } from "@/lib/images";
 
@@ -25,6 +27,163 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       "Family-owned online estate auction and home clean-out services for Greater Cleveland and Northeast Ohio.",
   });
+}
+
+type HeroCta = NonNullable<HomePage["heroPrimaryCta"]>;
+type ResolvedButton = { label: string; href: string; openInNewTab: boolean };
+
+const sectionTitles: Record<string, string> = {
+  "/services": "Services",
+  "/estate-sales": "Estate sales",
+  "/clean-outs": "Clean-outs",
+  "/faq": "FAQ",
+  "/testimonials": "Testimonials",
+};
+
+/** Service slugs that have their own top-level route; others fall back to /services. */
+const serviceRoutes = new Set(["estate-sales", "clean-outs"]);
+
+function phoneHref(phone: string | null | undefined) {
+  const digits = (phone ?? "").replace(/\D/g, "");
+  const national = digits.length === 11 && digits.startsWith("1") ? digits.slice(1) : digits;
+  return national.length === 10 ? `tel:${national}` : null;
+}
+
+function pageDestination(page: HeroCta["page"]): ResolvedButton | null {
+  if (!page) return null;
+  switch (page._type) {
+    case "homePage":
+      return { label: "Home", href: "/", openInNewTab: false };
+    case "aboutPage":
+      return { label: "About us", href: "/about", openInNewTab: false };
+    case "contactPage":
+      return { label: "Contact us", href: "/contact", openInNewTab: false };
+    case "service":
+      return {
+        label: page.title ?? "Services",
+        href: page.slug && serviceRoutes.has(page.slug) ? `/${page.slug}` : "/services",
+        openInNewTab: false,
+      };
+    case "cleanoutProject":
+      return page.slug
+        ? {
+            label: page.title ?? "View project",
+            href: `/clean-outs/${page.slug}`,
+            openInNewTab: false,
+          }
+        : null;
+    default:
+      return null;
+  }
+}
+
+function settingDestination(setting: string | null, settings: SiteSettings): ResolvedButton | null {
+  switch (setting) {
+    case "phone": {
+      const href = phoneHref(settings.phone);
+      return href ? { label: `Call ${settings.phone}`, href, openInNewTab: false } : null;
+    }
+    case "email":
+      return settings.email
+        ? { label: "Email us", href: `mailto:${settings.email}`, openInNewTab: false }
+        : null;
+    case "auctionUrl":
+      return settings.auctionUrl
+        ? { label: "Browse Online Auctions", href: settings.auctionUrl, openInNewTab: true }
+        : null;
+    case "facebookUrl":
+      return settings.facebookUrl
+        ? { label: "Follow on Facebook", href: settings.facebookUrl, openInNewTab: true }
+        : null;
+    case "instagramUrl":
+      return settings.instagramUrl
+        ? { label: "Follow on Instagram", href: settings.instagramUrl, openInNewTab: true }
+        : null;
+    default:
+      return null;
+  }
+}
+
+function linkDestination(cta: HeroCta, settings: SiteSettings): ResolvedButton | null {
+  switch (cta.linkType) {
+    case "page":
+      return (
+        pageDestination(cta.page) ??
+        (cta.section && sectionTitles[cta.section]
+          ? { label: sectionTitles[cta.section], href: cta.section, openInNewTab: false }
+          : null)
+      );
+    case "setting":
+      return settingDestination(cta.setting, settings);
+    case "phone": {
+      const href = phoneHref(cta.phone);
+      return href ? { label: `Call ${cta.phone}`, href, openInNewTab: false } : null;
+    }
+    case "email":
+      return cta.email
+        ? { label: "Email us", href: `mailto:${cta.email}`, openInNewTab: false }
+        : null;
+    case "url":
+      return cta.url ? { label: "Learn more", href: cta.url, openInNewTab: true } : null;
+    default:
+      return null;
+  }
+}
+
+/**
+ * Resolves an editor-configured button. Anything incomplete falls back to the
+ * given site setting, so a half-filled button in Studio never breaks the hero.
+ */
+function resolveHeroButton(
+  cta: HomePage["heroPrimaryCta"],
+  fallbackSetting: "auctionUrl" | "phone",
+  settings: SiteSettings,
+): ResolvedButton | null {
+  const destination =
+    (cta && linkDestination(cta, settings)) ?? settingDestination(fallbackSetting, settings);
+  if (!destination) return null;
+  return { ...destination, label: cta?.label?.trim() || destination.label };
+}
+
+function HeroButton({
+  label,
+  href,
+  openInNewTab,
+  className,
+  showArrow = false,
+}: {
+  label: string;
+  href: string;
+  openInNewTab: boolean;
+  className: string;
+  showArrow?: boolean;
+}) {
+  const isPhone = href.startsWith("tel:");
+  const content = (
+    <>
+      {isPhone ? <Phone /> : null}
+      {label}
+      {showArrow && !isPhone ? <ArrowRight /> : null}
+    </>
+  );
+
+  if (href.startsWith("/") && !openInNewTab) {
+    return (
+      <Link className={className} href={href}>
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <a
+      className={className}
+      href={href}
+      {...(openInNewTab ? { target: "_blank", rel: "noreferrer" } : {})}
+    >
+      {content}
+    </a>
+  );
 }
 
 const heroImages = [
@@ -48,6 +207,8 @@ export default async function HomePage() {
   const previewQuotes = testimonials.slice(0, 3);
   const tel = settings.phone.replace(/\D/g, "");
   const contactName = settings.contactName ?? "Lynn";
+  const primaryButton = resolveHeroButton(homePage?.heroPrimaryCta ?? null, "auctionUrl", settings);
+  const secondaryButton = resolveHeroButton(homePage?.heroSecondaryCta ?? null, "phone", settings);
 
   const serviceCards = [
     {
@@ -106,17 +267,12 @@ export default async function HomePage() {
                 `Hansen McDowell is a family-owned estate sale company serving ${settings.serviceArea}. We handle online estate auctions and complete clean-outs with care, clarity, and more than 30 years of experience.`}
             </p>
             <div className="button-row">
-              <a
-                className="button button--pill"
-                href={settings.auctionUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Browse Online Auctions <ArrowRight />
-              </a>
-              <a className="button button--pill button--outline" href={`tel:${tel}`}>
-                <Phone /> Call {settings.phone}
-              </a>
+              {primaryButton ? (
+                <HeroButton {...primaryButton} className="button button--pill" showArrow />
+              ) : null}
+              {secondaryButton ? (
+                <HeroButton {...secondaryButton} className="button button--pill button--outline" />
+              ) : null}
             </div>
             <ul className="landing-hero__proof">
               {(homePage?.heroProofPoints?.length

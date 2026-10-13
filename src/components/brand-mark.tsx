@@ -8,8 +8,8 @@ export function BrandMark({ inverse = false }: { inverse?: boolean }) {
         <Image
           src="/images/viking-cat.jpg"
           alt=""
-          width={44}
-          height={44}
+          width={160}
+          height={160}
           preload
         />
       </span>

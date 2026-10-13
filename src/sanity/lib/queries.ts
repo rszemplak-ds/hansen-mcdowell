@@ -40,6 +40,17 @@ const projectPhotoProjection = /* groq */ `{
   }
 }`;
 
+const heroButtonProjection = /* groq */ `{
+  label,
+  linkType,
+  setting,
+  section,
+  phone,
+  email,
+  url,
+  "page": page->{ _type, title, "slug": slug.current }
+}`;
+
 export const SITE_SETTINGS_QUERY = defineQuery(/* groq */ `
   *[_type == "siteSettings"][0]{
     businessName,
@@ -66,6 +77,8 @@ export const HOME_PAGE_QUERY = defineQuery(/* groq */ `
     heroEyebrow,
     heroHeading,
     heroIntroduction,
+    heroPrimaryCta ${heroButtonProjection},
+    heroSecondaryCta ${heroButtonProjection},
     heroProofPoints,
     introEyebrow,
     introHeading,

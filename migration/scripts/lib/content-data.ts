@@ -74,6 +74,17 @@ export function buildDocuments(): SanityDoc[] {
     heroHeading: "Experience that brings clarity to life's transitions.",
     heroIntroduction:
       "A family-owned team handling online estate auctions and complete home clean-outs with care, transparency, and more than 30 years of experience.",
+    heroPrimaryCta: {
+      _type: "heroButton",
+      label: "Browse Online Auctions",
+      linkType: "setting",
+      setting: "auctionUrl",
+    },
+    heroSecondaryCta: {
+      _type: "heroButton",
+      linkType: "setting",
+      setting: "phone",
+    },
     heroProofPoints: [
       "Family owned & operated",
       "Licensed & bonded",

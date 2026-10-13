@@ -5,6 +5,7 @@ import { estateSale } from "./estateSale";
 import { faq } from "./faq";
 import { homePage } from "./homePage";
 import { ctaLink } from "./objects/ctaLink";
+import { heroButton } from "./objects/heroButton";
 import { imageWithAlt } from "./objects/imageWithAlt";
 import { processStep } from "./objects/processStep";
 import { projectPhoto } from "./objects/projectPhoto";
@@ -20,6 +21,7 @@ export const schemaTypes = [
   seoFields,
   imageWithAlt,
   ctaLink,
+  heroButton,
   processStep,
   projectPhoto,
   valueItem,

@@ -115,6 +115,159 @@ export type Testimonial = {
   legacyId?: string;
 };
 
+export type EstateSale = {
+  _id: string;
+  _type: "estateSale";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  city?: string;
+  status?: "draft" | "published" | "completed";
+  biddingStarts?: string;
+  biddingEnds?: string;
+  pickup?: string;
+  summary?: string;
+  auctionUrl?: string;
+  featuredImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  gallery?: Array<{
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
+  legacyId?: string;
+  legacyUrl?: string;
+};
+
+export type SiteSettings = {
+  _id: string;
+  _type: "siteSettings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  businessName?: string;
+  shortName?: string;
+  phone?: string;
+  email?: string;
+  serviceArea?: string;
+  serviceAreaCities?: Array<string>;
+  license?: string;
+  auctionUrl?: string;
+  facebookUrl?: string;
+  instagramUrl?: string;
+  twitterUrl?: string;
+  contactName?: string;
+  settlementNote?: string;
+  brandMark?: ImageWithAlt;
+  logo?: ImageWithAlt;
+  defaultSeo?: SeoFields;
+};
+
+export type SeoFields = {
+  _type: "seoFields";
+  seoTitle?: string;
+  seoDescription?: string;
+};
+
+export type ImageWithAlt = {
+  _type: "imageWithAlt";
+  asset?: SanityImageAssetReference;
+  media?: unknown;
+  hotspot?: SanityImageHotspot;
+  crop?: SanityImageCrop;
+  alt?: string;
+};
+
+export type ValueItem = {
+  _type: "valueItem";
+  title?: string;
+  body?: string;
+  order?: number;
+};
+
+export type ProjectPhoto = {
+  _type: "projectPhoto";
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  stage?: "before" | "after" | "detail";
+  caption?: string;
+  alt?: string;
+};
+
+export type ProcessStep = {
+  _type: "processStep";
+  title?: string;
+  body?: string;
+  order?: number;
+};
+
+export type HomePageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "homePage";
+};
+
+export type AboutPageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "aboutPage";
+};
+
+export type ContactPageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "contactPage";
+};
+
+export type ServiceReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "service";
+};
+
+export type CleanoutProjectReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "cleanoutProject";
+};
+
+export type HeroButton = {
+  _type: "heroButton";
+  label?: string;
+  linkType?: "page" | "setting" | "phone" | "email" | "url";
+  page?:
+    | HomePageReference
+    | AboutPageReference
+    | ContactPageReference
+    | ServiceReference
+    | CleanoutProjectReference;
+  section?:
+    "/services" | "/estate-sales" | "/clean-outs" | "/faq" | "/testimonials";
+  setting?: "phone" | "email" | "auctionUrl" | "facebookUrl" | "instagramUrl";
+  phone?: string;
+  email?: string;
+  url?: string;
+};
+
 export type CleanoutProject = {
   _id: string;
   _type: "cleanoutProject";
@@ -153,39 +306,6 @@ export type CleanoutProject = {
   legacyUrl?: string;
 };
 
-export type EstateSale = {
-  _id: string;
-  _type: "estateSale";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  city?: string;
-  status?: "draft" | "published" | "completed";
-  biddingStarts?: string;
-  biddingEnds?: string;
-  pickup?: string;
-  summary?: string;
-  auctionUrl?: string;
-  featuredImage?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  gallery?: Array<{
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-    _key: string;
-  }>;
-  legacyId?: string;
-  legacyUrl?: string;
-};
-
 export type Service = {
   _id: string;
   _type: "service";
@@ -210,21 +330,6 @@ export type Service = {
   >;
   seo?: SeoFields;
   category?: "estate-sales" | "clean-outs";
-};
-
-export type SeoFields = {
-  _type: "seoFields";
-  seoTitle?: string;
-  seoDescription?: string;
-};
-
-export type ImageWithAlt = {
-  _type: "imageWithAlt";
-  asset?: SanityImageAssetReference;
-  media?: unknown;
-  hotspot?: SanityImageHotspot;
-  crop?: SanityImageCrop;
-  alt?: string;
 };
 
 export type ContactPage = {
@@ -298,6 +403,8 @@ export type HomePage = {
   heroEyebrow?: string;
   heroHeading?: string;
   heroIntroduction?: string;
+  heroPrimaryCta?: HeroButton;
+  heroSecondaryCta?: HeroButton;
   heroProofPoints?: Array<string>;
   introEyebrow?: string;
   introHeading?: string;
@@ -318,58 +425,6 @@ export type HomePage = {
   auctionBandEyebrow?: string;
   auctionBandHeading?: string;
   seo?: SeoFields;
-};
-
-export type SiteSettings = {
-  _id: string;
-  _type: "siteSettings";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  businessName?: string;
-  shortName?: string;
-  phone?: string;
-  email?: string;
-  serviceArea?: string;
-  serviceAreaCities?: Array<string>;
-  license?: string;
-  auctionUrl?: string;
-  facebookUrl?: string;
-  instagramUrl?: string;
-  twitterUrl?: string;
-  contactName?: string;
-  settlementNote?: string;
-  brandMark?: ImageWithAlt;
-  logo?: ImageWithAlt;
-  defaultSeo?: SeoFields;
-};
-
-export type ValueItem = {
-  _type: "valueItem";
-  title?: string;
-  body?: string;
-  order?: number;
-};
-
-export type ProjectPhoto = {
-  _type: "projectPhoto";
-  image?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  stage?: "before" | "after" | "detail";
-  caption?: string;
-  alt?: string;
-};
-
-export type ProcessStep = {
-  _type: "processStep";
-  title?: string;
-  body?: string;
-  order?: number;
 };
 
 export type CtaLink = {
@@ -484,18 +539,24 @@ export type AllSanitySchemaTypes =
   | Slug
   | Faq
   | Testimonial
-  | CleanoutProject
   | EstateSale
-  | Service
+  | SiteSettings
   | SeoFields
   | ImageWithAlt
-  | ContactPage
-  | AboutPage
-  | HomePage
-  | SiteSettings
   | ValueItem
   | ProjectPhoto
   | ProcessStep
+  | HomePageReference
+  | AboutPageReference
+  | ContactPageReference
+  | ServiceReference
+  | CleanoutProjectReference
+  | HeroButton
+  | CleanoutProject
+  | Service
+  | ContactPage
+  | AboutPage
+  | HomePage
   | CtaLink
   | SanityImagePaletteSwatch
   | SanityImagePalette
@@ -545,11 +606,97 @@ export type SITE_SETTINGS_QUERY_RESULT = {
 
 // Source: src/sanity/lib/queries.ts
 // Variable: HOME_PAGE_QUERY
-// Query: *[_type == "homePage"][0]{    heroEyebrow,    heroHeading,    heroIntroduction,    heroProofPoints,    introEyebrow,    introHeading,    introBody,    processEyebrow,    processHeading,    processIntro,    processSteps[] {  _key,  title,  body,  order},    integrityEyebrow,    integrityHeading,    integrityBody,    integrityQuote,    integrityQuoteAttribution,    auctionBandEyebrow,    auctionBandHeading,    seo {  seoTitle,  seoDescription}  }
+// Query: *[_type == "homePage"][0]{    heroEyebrow,    heroHeading,    heroIntroduction,    heroPrimaryCta {  label,  linkType,  setting,  section,  phone,  email,  url,  "page": page->{ _type, title, "slug": slug.current }},    heroSecondaryCta {  label,  linkType,  setting,  section,  phone,  email,  url,  "page": page->{ _type, title, "slug": slug.current }},    heroProofPoints,    introEyebrow,    introHeading,    introBody,    processEyebrow,    processHeading,    processIntro,    processSteps[] {  _key,  title,  body,  order},    integrityEyebrow,    integrityHeading,    integrityBody,    integrityQuote,    integrityQuoteAttribution,    auctionBandEyebrow,    auctionBandHeading,    seo {  seoTitle,  seoDescription}  }
 export type HOME_PAGE_QUERY_RESULT = {
   heroEyebrow: string | null;
   heroHeading: string | null;
   heroIntroduction: string | null;
+  heroPrimaryCta: {
+    label: string | null;
+    linkType: "email" | "page" | "phone" | "setting" | "url" | null;
+    setting:
+      "auctionUrl" | "email" | "facebookUrl" | "instagramUrl" | "phone" | null;
+    section:
+      | "/clean-outs"
+      | "/estate-sales"
+      | "/faq"
+      | "/services"
+      | "/testimonials"
+      | null;
+    phone: string | null;
+    email: string | null;
+    url: string | null;
+    page:
+      | {
+          _type: "aboutPage";
+          title: null;
+          slug: null;
+        }
+      | {
+          _type: "cleanoutProject";
+          title: string | null;
+          slug: string | null;
+        }
+      | {
+          _type: "contactPage";
+          title: null;
+          slug: null;
+        }
+      | {
+          _type: "homePage";
+          title: null;
+          slug: null;
+        }
+      | {
+          _type: "service";
+          title: string | null;
+          slug: string | null;
+        }
+      | null;
+  } | null;
+  heroSecondaryCta: {
+    label: string | null;
+    linkType: "email" | "page" | "phone" | "setting" | "url" | null;
+    setting:
+      "auctionUrl" | "email" | "facebookUrl" | "instagramUrl" | "phone" | null;
+    section:
+      | "/clean-outs"
+      | "/estate-sales"
+      | "/faq"
+      | "/services"
+      | "/testimonials"
+      | null;
+    phone: string | null;
+    email: string | null;
+    url: string | null;
+    page:
+      | {
+          _type: "aboutPage";
+          title: null;
+          slug: null;
+        }
+      | {
+          _type: "cleanoutProject";
+          title: string | null;
+          slug: string | null;
+        }
+      | {
+          _type: "contactPage";
+          title: null;
+          slug: null;
+        }
+      | {
+          _type: "homePage";
+          title: null;
+          slug: null;
+        }
+      | {
+          _type: "service";
+          title: string | null;
+          slug: string | null;
+        }
+      | null;
+  } | null;
   heroProofPoints: Array<string> | null;
   introEyebrow: string | null;
   introHeading: string | null;
@@ -839,7 +986,7 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '\n  *[_type == "siteSettings"][0]{\n    businessName,\n    shortName,\n    phone,\n    email,\n    serviceArea,\n    serviceAreaCities,\n    license,\n    auctionUrl,\n    facebookUrl,\n    instagramUrl,\n    twitterUrl,\n    contactName,\n    settlementNote,\n    brandMark {\n  alt,\n  hotspot,\n  crop,\n  "url": asset->url,\n  "assetId": asset->_id\n},\n    logo {\n  alt,\n  hotspot,\n  crop,\n  "url": asset->url,\n  "assetId": asset->_id\n},\n    defaultSeo {\n  seoTitle,\n  seoDescription\n}\n  }\n': SITE_SETTINGS_QUERY_RESULT;
-    '\n  *[_type == "homePage"][0]{\n    heroEyebrow,\n    heroHeading,\n    heroIntroduction,\n    heroProofPoints,\n    introEyebrow,\n    introHeading,\n    introBody,\n    processEyebrow,\n    processHeading,\n    processIntro,\n    processSteps[] {\n  _key,\n  title,\n  body,\n  order\n},\n    integrityEyebrow,\n    integrityHeading,\n    integrityBody,\n    integrityQuote,\n    integrityQuoteAttribution,\n    auctionBandEyebrow,\n    auctionBandHeading,\n    seo {\n  seoTitle,\n  seoDescription\n}\n  }\n': HOME_PAGE_QUERY_RESULT;
+    '\n  *[_type == "homePage"][0]{\n    heroEyebrow,\n    heroHeading,\n    heroIntroduction,\n    heroPrimaryCta {\n  label,\n  linkType,\n  setting,\n  section,\n  phone,\n  email,\n  url,\n  "page": page->{ _type, title, "slug": slug.current }\n},\n    heroSecondaryCta {\n  label,\n  linkType,\n  setting,\n  section,\n  phone,\n  email,\n  url,\n  "page": page->{ _type, title, "slug": slug.current }\n},\n    heroProofPoints,\n    introEyebrow,\n    introHeading,\n    introBody,\n    processEyebrow,\n    processHeading,\n    processIntro,\n    processSteps[] {\n  _key,\n  title,\n  body,\n  order\n},\n    integrityEyebrow,\n    integrityHeading,\n    integrityBody,\n    integrityQuote,\n    integrityQuoteAttribution,\n    auctionBandEyebrow,\n    auctionBandHeading,\n    seo {\n  seoTitle,\n  seoDescription\n}\n  }\n': HOME_PAGE_QUERY_RESULT;
     '\n  *[_type == "aboutPage"][0]{\n    heroEyebrow,\n    heroHeading,\n    heroIntroduction,\n    storyEyebrow,\n    storyHeading,\n    storyBody,\n    valuesEyebrow,\n    valuesHeading,\n    values[] {\n  _key,\n  title,\n  body,\n  order\n},\n    credentialsEyebrow,\n    credentialsHeading,\n    credentials[] {\n  _key,\n  title,\n  body,\n  order\n},\n    seo {\n  seoTitle,\n  seoDescription\n}\n  }\n': ABOUT_PAGE_QUERY_RESULT;
     '\n  *[_type == "contactPage"][0]{\n    heroEyebrow,\n    heroHeading,\n    heroIntroduction,\n    directContactHeading,\n    directContactNote,\n    formHeading,\n    formIntro,\n    seo {\n  seoTitle,\n  seoDescription\n}\n  }\n': CONTACT_PAGE_QUERY_RESULT;
     '\n  *[_type == "service"] | order(order asc){\n    _id,\n    title,\n    "slug": slug.current,\n    eyebrow,\n    summary,\n    description,\n    image {\n  alt,\n  hotspot,\n  crop,\n  "url": asset->url,\n  "assetId": asset->_id\n},\n    features,\n    order,\n    heroEyebrow,\n    heroHeading,\n    heroIntroduction,\n    processSteps[] {\n  _key,\n  title,\n  body,\n  order\n},\n    seo {\n  seoTitle,\n  seoDescription\n},\n    category\n  }\n': SERVICES_QUERY_RESULT;

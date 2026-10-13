@@ -209,19 +209,19 @@ h1, h2, h3 {
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 1rem;
-  min-height: 4.75rem;
+  min-height: 6.5rem;
 }
 
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 1rem;
   justify-self: start;
 }
 
 .brand__mark {
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 5rem;
+  height: 5rem;
   overflow: hidden;
   border-radius: 50%;
   border: 2px solid var(--red);
@@ -242,15 +242,15 @@ h1, h2, h3 {
 
 .brand__words strong {
   font-family: var(--font-serif);
-  font-size: 1.15rem;
+  font-size: 1.45rem;
   font-weight: 600;
   line-height: 1;
 }
 
 .brand__tagline {
-  margin-top: 0.28rem;
+  margin-top: 0.36rem;
   color: var(--red);
-  font-size: 0.62rem;
+  font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -2130,6 +2130,12 @@ h1, h2, h3 {
 @media (max-width: 900px) {
   .site-header__inner {
     grid-template-columns: 1fr auto;
+    min-height: 5.25rem;
+  }
+
+  .brand__mark {
+    width: 3.75rem;
+    height: 3.75rem;
   }
 
   .desktop-nav,
