@@ -17,15 +17,15 @@ export const homePage = defineType({
       name: "heroPrimaryCta",
       title: "Primary button",
       type: "heroButton",
-      description: "Filled button. Until this is set, it opens the auction website from Site settings.",
-      initialValue: { linkType: "setting", setting: "auctionUrl" },
+      description:
+        "Filled button. By default it reads “Browse Online Auctions” and opens the auction website from Site settings.",
     }),
     defineField({
       name: "heroSecondaryCta",
       title: "Secondary button",
       type: "heroButton",
-      description: "Outline button. Until this is set, it calls the phone number from Site settings.",
-      initialValue: { linkType: "setting", setting: "phone" },
+      description:
+        "Outline button. By default it shows the phone number from Site settings and calls it.",
     }),
     defineField({
       name: "heroProofPoints",

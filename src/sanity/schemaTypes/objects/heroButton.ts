@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { HeroButtonInput } from "../../components/hero-button-input";
 import { SiteSettingInput, siteSettingOptions } from "../../components/site-setting-input";
 
 const linkTypes = [
@@ -30,6 +31,7 @@ export const heroButton = defineType({
   name: "heroButton",
   title: "Button",
   type: "object",
+  components: { input: HeroButtonInput },
   fields: [
     defineField({
       name: "label",
@@ -42,8 +44,6 @@ export const heroButton = defineType({
       title: "Links to",
       type: "string",
       options: { list: [...linkTypes], layout: "radio", direction: "horizontal" },
-      initialValue: "page",
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "page",
